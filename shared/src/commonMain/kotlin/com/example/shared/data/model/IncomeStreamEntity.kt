@@ -12,5 +12,6 @@ data class IncomeStreamEntity(
     val frequency: String = "ONE_TIME",
     val nextDueEpochMillis: Long = 0L,
     val accountId: Int? = null,
-    val isActive: Boolean = true
+    val isActive: Boolean = true,
+    val lastConfirmedEpochMillis: Long = 0L
 )

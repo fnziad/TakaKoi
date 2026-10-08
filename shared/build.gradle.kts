@@ -6,7 +6,6 @@ plugins {
   alias(libs.plugins.compose.multiplatform)
   alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.google.devtools.ksp)
-  alias(libs.plugins.androidx.room)
 }
 
 // Skiko 0.8.18 is published with a truncated iOS simulator klib (the
@@ -22,8 +21,14 @@ configurations.configureEach {
   }
 }
 
-room {
-  schemaDirectory("$projectDir/schemas")
+// Use one explicit schema export path on native and AGP 9 Android-KMP targets.
+// Room 2.7's Gradle adapter does not configure the Android-KMP KSP task.
+ksp {
+  arg("room.schemaLocation", "$projectDir/schemas")
+}
+
+compose.resources {
+  publicResClass = true
 }
 
 kotlin {
@@ -46,6 +51,10 @@ kotlin {
   }
 
   sourceSets {
+    commonTest.dependencies {
+      implementation(kotlin("test"))
+    }
+
     commonMain.dependencies {
       // Compose Multiplatform
       implementation(compose.runtime)
@@ -88,6 +97,10 @@ kotlin {
       implementation(libs.ktor.client.darwin)
     }
   }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest>().configureEach {
+  providers.environmentVariable("TAKAKOI_TEST_SIMULATOR_ID").orNull?.let { device.set(it) }
 }
 
 dependencies {

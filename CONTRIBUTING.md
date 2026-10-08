@@ -61,6 +61,23 @@ JAVA_HOME="$(brew --prefix openjdk@21)/libexec/openjdk.jdk/Contents/Home" \
   ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64 --no-configuration-cache
 ```
 
+### Finance and database regression tests
+
+```bash
+./gradlew :app:testDebugUnitTest \
+  --tests 'com.example.CashflowCalculationsTest' \
+  --tests 'com.example.CashflowUnitTest' \
+  --tests 'com.example.MoneyTest' \
+  --tests 'com.example.DatabaseMigrationTest' \
+  --no-configuration-cache
+```
+
+These tests use synthetic data and disposable SQLite files. Database preservation tests run with generated Room DAOs and Robolectric's native SQLite through `AndroidSQLiteDriver` on API 24 and 36; they are not physical-device or Android bundled-driver verification. The production builder still defaults to `BundledSQLiteDriver`. Keep the generated Room schema in `shared/schemas/` under version control and add migration-preservation tests when changing entities. Never enable destructive migration fallback for finance data.
+
+`domain/money/Money` uses checked integer minor units and explicit currency precision. It rejects overflow, mixed currencies, ambiguous grouping, and excess decimal places, and accepts ASCII/Bangla digits. Existing Room/UI amount fields still use `Double`; adding this primitive does not migrate or encrypt existing amounts.
+
+On macOS, run `./gradlew :shared:iosSimulatorArm64Test --no-configuration-cache` for shared money invariants and native Room reopen/preservation tests. Set `TAKAKOI_TEST_SIMULATOR_ID` to an available simulator UUID to select an explicit test device. These tests use temporary synthetic databases, not app data; they do not validate UIKit, encryption, biometrics, or physical-device behavior.
+
 ---
 
 ## 📐 Code Style & Conventions

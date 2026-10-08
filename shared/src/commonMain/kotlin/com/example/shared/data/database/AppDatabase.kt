@@ -4,6 +4,7 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
+import androidx.sqlite.SQLiteDriver
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.example.shared.data.dao.AccountDao
 import com.example.shared.data.dao.IncomeStreamDao
@@ -34,8 +35,8 @@ import kotlinx.coroutines.Dispatchers
         UserSettingsEntity::class,
         TaskEntity::class
     ],
-    version = 5,
-    exportSchema = false
+    version = 6,
+    exportSchema = true
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -56,10 +57,13 @@ expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase>
  * Platform-neutral builder helper. Each platform provides the builder
  * via an expect/actual pair in DatabaseFactory.kt.
  */
-fun buildAppDatabase(builder: RoomDatabase.Builder<AppDatabase>): AppDatabase {
+fun buildAppDatabase(
+    builder: RoomDatabase.Builder<AppDatabase>,
+    driver: SQLiteDriver = BundledSQLiteDriver()
+): AppDatabase {
     return builder
-        .setDriver(BundledSQLiteDriver())
+        .setDriver(driver)
         .setQueryCoroutineContext(Dispatchers.Default)
-        .fallbackToDestructiveMigration(dropAllTables = true)
+        .addMigrations(MIGRATION_4_5, MIGRATION_5_6)
         .build()
 }
