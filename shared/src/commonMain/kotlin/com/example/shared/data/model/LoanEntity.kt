@@ -16,5 +16,13 @@ data class LoanEntity(
     val direction: String, // "I_OWE" or "OWED_TO_ME"
     val dueDateEpochMillis: Long = Clock.System.now().toEpochMilliseconds() + (14L * 24 * 3600 * 1000),
     val isSettled: Boolean = false,
-    val note: String = ""
+    val note: String = "",
+    /** FRIEND_FAMILY, CASH_ADVANCE, SIMPLE_APR, COMPOUND_APR, MFS_FEE */
+    val template: String = "FRIEND_FAMILY",
+    /** NONE, SIMPLE, COMPOUND, FLAT_FEE */
+    val interestModel: String = "NONE",
+    val annualInterestRate: Double = 0.0,
+    /** DAILY, MONTHLY, YEARLY */
+    val compoundingFrequency: String = "MONTHLY",
+    val fees: Double = 0.0
 )

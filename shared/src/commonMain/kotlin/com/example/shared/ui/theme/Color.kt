@@ -3,25 +3,25 @@ package com.example.shared.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // ── Premium Neutral Base ──────────────────────────────────────────────────────
-val PremiumBlack      = Color(0xFF0A0A0F)   // Near-black for dark accents
+val PremiumBlack      = Color(0xFF111827)   // Quiet ink
 val PremiumInk        = Color(0xFF111118)   // Deep ink card
 val PremiumCharcoal   = Color(0xFF1A1A27)   // Slightly lighter dark surface
-val PremiumSlate      = Color(0xFF6B7280)   // Muted label text
+val PremiumSlate      = Color(0xFF4B5563)   // Muted label text — readable on porcelain
 
-val PremiumBg         = Color(0xFFF5F4F2)   // Warm off-white background
+val PremiumBg         = Color(0xFFFFFDFC)   // Warm porcelain
 val PremiumSurface    = Color(0xFFFFFFFF)   // Pure white card
 val PremiumBorder     = Color(0xFFEAE9E6)   // Very subtle warm border
 
 // ── Primary Accent ─────────────────────────────────────────────────────────
-val PremiumViolet     = Color(0xFF6C52EF)   // Bold violet-indigo
-val PremiumVioletSoft = Color(0xFFF0EDFF)   // Soft violet tint for bg
-val PremiumVioletMid  = Color(0xFFD6CFFE)   // Mid violet for containers
+val PremiumViolet     = Color(0xFF123242)   // Deep navy brand accent
+val PremiumVioletSoft = Color(0xFFE8F0F2)   // Soft ink tint
+val PremiumVioletMid  = Color(0xFFCCE0E4)   // Mid ink tint
 
 // ── Semantic Accent Colors ────────────────────────────────────────────────
-val PremiumEmerald    = Color(0xFF00C48C)   // Positive / income green
-val PremiumEmeraldBg  = Color(0xFFE6FBF4)   // Emerald tint background
-val PremiumRose       = Color(0xFFFF4757)   // Expense / negative red
-val PremiumRoseBg     = Color(0xFFFFEBED)   // Rose tint background
+val PremiumEmerald    = Color(0xFF168466)   // Positive / income green
+val PremiumEmeraldBg  = Color(0xFFE3F4EE)   // Emerald tint background
+val PremiumRose       = Color(0xFFC55355)   // Expense / negative red
+val PremiumRoseBg     = Color(0xFFF9E8E7)   // Rose tint background
 val PremiumAmber      = Color(0xFFFFA827)   // Warning / pending amber
 val PremiumAmberBg    = Color(0xFFFFF5E6)   // Amber tint background
 

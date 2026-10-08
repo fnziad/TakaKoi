@@ -1,6 +1,7 @@
 package com.example
 
-import org.junit.Assert.*
+import com.example.shared.ui.cashflow.CashflowCalculations
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
@@ -8,9 +9,9 @@ import org.junit.Test
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class CashflowUnitTest {
   @Test
-  fun addition_isCorrect() {
-    assertEquals(4, 2 + 2)
+  fun empty_ledger_has_no_pending_captures() {
+    assertEquals(0, CashflowCalculations.pendingCount(emptyList()))
   }
 }

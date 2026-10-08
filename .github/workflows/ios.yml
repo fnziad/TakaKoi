@@ -20,6 +20,7 @@ permissions:
 jobs:
   build-ios:
     runs-on: macos-latest
+    timeout-minutes: 40
 
     steps:
       - name: Checkout repository
@@ -40,6 +41,23 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x gradlew
+
+      - name: Test shared money and native Room storage
+        run: |
+          export TAKAKOI_TEST_SIMULATOR_ID="$(xcrun simctl create TakaKoi-CI-Tests com.apple.CoreSimulator.SimDeviceType.iPhone-16)"
+          trap 'xcrun simctl shutdown "$TAKAKOI_TEST_SIMULATOR_ID" || true; xcrun simctl delete "$TAKAKOI_TEST_SIMULATOR_ID"' EXIT
+          xcrun simctl boot "$TAKAKOI_TEST_SIMULATOR_ID"
+          xcrun simctl bootstatus "$TAKAKOI_TEST_SIMULATOR_ID" -b
+          ./gradlew :shared:iosSimulatorArm64Test --no-configuration-cache --stacktrace
+
+      - name: Upload shared test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TakaKoi-iOS-Test-Results
+          path: shared/build/reports/tests/iosSimulatorArm64Test/
+          if-no-files-found: ignore
+          retention-days: 14
 
       - name: Build KMP shared iOS framework — Simulator (iosSimulatorArm64)
         run: |
